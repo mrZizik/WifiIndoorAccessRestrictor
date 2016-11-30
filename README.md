@@ -1,2 +1,0 @@
-# WifiProbeRequestSniffer
-SSN Project
