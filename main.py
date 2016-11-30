@@ -14,8 +14,8 @@ def PacketHandler(pkt):
     if pkt.haslayer(Dot11):
         if pkt.addr2 in blacklist:
             notify(pkt.addr2)
-        elif pkt.addr in blacklist:
-            notify(pkt.addr)
+        elif pkt.addr1 in blacklist:
+            notify(pkt.addr1)
 
 
 sniff(iface="mon0", prn = PacketHandler)
