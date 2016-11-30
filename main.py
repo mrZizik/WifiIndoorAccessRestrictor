@@ -11,11 +11,10 @@ def notify(addr):
     print "[{0}] - {1} from blacklist is in secured area".format(time, addr)
 
 def PacketHandler(pkt):
-    if pkt.haslayer(Dot11):
-        if pkt.addr2 in blacklist:
-            notify(pkt.addr2)
-        elif pkt.addr1 in blacklist:
-            notify(pkt.addr1)
+    if pkt.addr2 in blacklist:
+        notify(pkt.addr2)
+    elif pkt.addr1 in blacklist:
+        notify(pkt.addr1)
 
 
 sniff(iface="mon0", prn = PacketHandler)
