@@ -9,7 +9,7 @@ def PacketHandler(pkt):
     if pkt.haslayer(Dot11):
         if pkt.addr2 not in ap_list:
             ap_list.append(pkt.addr2)
-            print "AP MAC: {0} with SSID:".format(pkt.summary())
+            print "SENDER MAC: {0} RECIPIEN SSID: {1}".format(pkt.addr2, pkt.addr1)
 
 
 sniff(iface="mon0", prn = PacketHandler)
