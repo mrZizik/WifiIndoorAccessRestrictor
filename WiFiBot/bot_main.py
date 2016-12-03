@@ -16,9 +16,9 @@ from flask import Flask, request
 app = Flask(__name__) 
 
  
-TOKEN = '#'
+TOKEN = '313514427:AAHucA5unebq3-yPF8BzPpFBA_Z2khcsbz0'
 URL = 'dagmeet.appspot.com' 
-password = "#" # Very strong password's hash
+password = "6c37ff0650a9580bba66dc6334ef10f83ec3e19f9282bc29c6c6634718ab9aee" # Very strong password's hash
 global bot 
 bot = telegram.Bot(token=TOKEN) 
 admins = []
@@ -31,7 +31,7 @@ def checkPassword(str):
 @app.route('/NOTIFY', methods=['GET']) 
 def notify():
     for admin in admins:
-        bot.sendMessage(chat_id=admin, text=request.args.get("message"))
+        bot.sendMessage(chat_id=admin, text=request.args.get("mac"))
 
 @app.route('/HOOK', methods=['POST']) 
 def webhook_handler(): 
