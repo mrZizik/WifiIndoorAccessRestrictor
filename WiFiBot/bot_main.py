@@ -15,7 +15,7 @@ from flask import Flask, request
 app = Flask(__name__) 
 
  
-TOKEN = '#'
+TOKEN = '313514427:AAHucA5unebq3-yPF8BzPpFBA_Z2khcsbz0'
 URL = 'dagmeet.appspot.com' 
 
 global bot 
@@ -30,12 +30,15 @@ def webhook_handler():
             chat_id = update.message.chat.id 
             text = update.message.text
             text = text.lower()
-            bot.sendMessage(chat_id=chat_id, text='ТЕКСТ')
+            bot.sendMessage(chat_id=chat_id, text=chat_id)
             logging.getLogger().setLevel(logging.INFO) 
             logging.info('===============TEXT=================' + text) 
         except AttributeError:
             print "a"
     return 'ok' 
+
+
+
 
 #А вот так подключается вебхук 
 @app.route('/set_webhook', methods=['GET', 'POST']) 
