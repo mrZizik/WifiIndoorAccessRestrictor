@@ -6,6 +6,7 @@ import site
 import os.path 
 import logging 
 import json
+import hashlib
 site.addsitedir(os.path.join(os.path.dirname(__file__), 'libs')) 
 
 import telegram 
@@ -15,12 +16,22 @@ from flask import Flask, request
 app = Flask(__name__) 
 
  
-TOKEN = '313514427:AAHucA5unebq3-yPF8BzPpFBA_Z2khcsbz0'
+TOKEN = '#'
 URL = 'dagmeet.appspot.com' 
-
+password = "#" # Very strong password's hash
 global bot 
 bot = telegram.Bot(token=TOKEN) 
+admins = []
 
+def checkPassword(str):
+    h = hashlib.sha256()
+    h.update(str)
+    return h.hexdigest() == password
+
+@app.route('/NOTIFY', methods=['GET']) 
+def notify():
+    for admin in admins:
+        bot.sendMessage(chat_id=admin, text=request.args.get("message"))
 
 @app.route('/HOOK', methods=['POST']) 
 def webhook_handler(): 
@@ -30,7 +41,13 @@ def webhook_handler():
             chat_id = update.message.chat.id 
             text = update.message.text
             text = text.lower()
-            bot.sendMessage(chat_id=chat_id, text=chat_id)
+            if text.startswith("/admin"):
+                data = text.split(" ")
+                if checkPassword(data[1]):
+                    admins.append(chat_id)
+                    bot.sendMessage(chat_id=chat_id, text="Access granted")
+                else:
+                    bot.sendMessage(chat_id=chat_id, text="Access denied")
             logging.getLogger().setLevel(logging.INFO) 
             logging.info('===============TEXT=================' + text) 
         except AttributeError:
