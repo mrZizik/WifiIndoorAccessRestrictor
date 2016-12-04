@@ -6,8 +6,17 @@ import os
 import time
 import thread
 import ur
+import sched, time
 
-blacklist = open("black.txt","r").read().split("\n")
+blacklist = []
+
+def timerFunc(sc): 
+    print "Updating white list"
+    blacklist = urllib.urlopen("http://dagmeet.appspot.com/LIST")
+    s.enter(60, 1, timerFunc, (sc,))
+
+
+
 logfile = open("logs.txt","a+")
 breaks=[]
 
@@ -18,6 +27,8 @@ def request(str):
 	url_values = urllib.urlencode(data)
 	url = "http://dagmeet.appspot.com/NOTIFY"
 	urllib.urlopen(url + "?" + url_values)
+
+def getList()
 
 
 def notify(addr):
@@ -35,5 +46,11 @@ def PacketHandler(pkt):
         notify(pkt.addr1)
 
 
+s = sched.scheduler(time.time, time.sleep)
+s.enter(60, 1, do_something, (s,))
+s.run()
 
 sniff(iface="mon0", prn = PacketHandler)
+
+
+
