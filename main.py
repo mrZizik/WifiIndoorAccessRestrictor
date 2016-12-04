@@ -9,6 +9,16 @@ import time
 import thread
 import urllib3
 http = urllib3.PoolManager()
+import sched
+
+s = sched.scheduler(time.time, time.sleep)
+def timerJob(sc): 
+    blacklist = getBlackList()
+    breaks = []
+    print "Loaded ", blacklist
+    s.enter(60, 1, timerJob, (sc,))
+
+
 
 ## blacklist = open("black.txt","r".read().split("\n")
 logfile = open("logs.txt","a+")
@@ -16,11 +26,6 @@ breaks=[]
 blacklist=[]
 starttime=time.time()
 
-while True:
-    blacklist = http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
-    breaks = []
-    print blacklist
-    time.sleep(60.0 - ((time.time() - starttime) % 60.0))
 
 def getBlackList():
     http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
@@ -33,9 +38,9 @@ def request(str):
 def notify(addr):
     if addr not in breaks:
         time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-        logfile.write("[{0}] - {1} not in whitelist is in secured area\n".format(time, addr))
-        print "[{0}] - {1} from blacklist is in secured area".format(time, addr)
-        request("[{0}] - {1} from blacklist is in secured area".format(time, addr))
+        logfile.write("[{0}] - {1} is in secured area\n".format(time, addr))
+        print "[{0}] - {1} is in secured area".format(time, addr)
+        request("[{0}] - {1} is in secured area".format(time, addr))
         breaks.append(addr)
 
 def PacketHandler(pkt):
@@ -47,3 +52,5 @@ def PacketHandler(pkt):
 
 getBlackList()
 sniff(iface="mon0", prn = PacketHandler)
+s.enter(60, 1, timerJob, (s,))
+s.run()
