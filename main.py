@@ -46,6 +46,7 @@ def getBlackList():
     return http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
 
 def updateBlackList():
+    print "ass"
     blacklist = getBlackList()
 
 def request(str):
