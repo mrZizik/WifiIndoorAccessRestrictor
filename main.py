@@ -69,7 +69,7 @@ def PacketHandler(pkt):
 blacklist = getBlackList()
 print "Blacklist ", blacklist
 
-t = perpetualTimer(5,updateBlackList())
+t = perpetualTimer(5,updateBlackList)
 t.start()
 sniff(iface="mon0", prn = PacketHandler)
 
