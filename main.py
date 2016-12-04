@@ -18,7 +18,7 @@ class perpetualTimer():
       self.t=t
       self.hFunction = hFunction
       self.thread = Timer(self.t,self.handle_function)
-      self.thread.daemon = true
+      self.thread.daemon = True
 
    def handle_function(self):
       self.hFunction()
