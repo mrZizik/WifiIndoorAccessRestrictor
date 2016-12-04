@@ -29,6 +29,7 @@ def request(str):
 
 def notify(addr):
     newbl = getBlackList()
+    global blacklist
     if newbl != blacklist:
         blacklist = newbl
         print "Blacklist updated", blacklist
