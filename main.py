@@ -46,6 +46,7 @@ def getBlackList():
     return http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
 
 def updateBlackList():
+    global blacklist
     print blacklist
     newbl = getBlackList()
     if blacklist != newbl:
