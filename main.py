@@ -10,6 +10,28 @@ import thread
 import urllib3
 http = urllib3.PoolManager()
 
+from threading import Timer,Thread,Event
+
+class perpetualTimer():
+
+   def __init__(self,t,hFunction):
+      self.t=t
+      self.hFunction = hFunction
+      self.thread = Timer(self.t,self.handle_function)
+
+   def handle_function(self):
+      self.hFunction()
+      self.thread = Timer(self.t,self.handle_function)
+      self.thread.start()
+
+   def start(self):
+      self.thread.start()
+
+   def cancel(self):
+      self.thread.cancel()
+
+
+
 
 
 
@@ -23,16 +45,14 @@ blacklist=[]
 def getBlackList():
     return http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
 
+def updateBlackList():
+    blacklist = getBlackList()
+
 def request(str):
     http.request("GET", "http://dagmeet.appspot.com/NOTIFY", fields={"mac": str})
     
 
 def notify(addr):
-    newbl = getBlackList()
-    global blacklist
-    if newbl != blacklist:
-        blacklist = newbl
-        print "Blacklist updated", blacklist
     if addr not in breaks:
         time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         logfile.write("[{0}] - {1} is in secured area\n".format(time, addr))
@@ -48,5 +68,8 @@ def PacketHandler(pkt):
 
 blacklist = getBlackList()
 print "Blacklist ", blacklist
+
+t = perpetualTimer(5,updateBlackList())
+t.start()
 sniff(iface="mon0", prn = PacketHandler)
 
