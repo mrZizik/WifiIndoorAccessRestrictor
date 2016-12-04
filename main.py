@@ -46,8 +46,11 @@ def getBlackList():
     return http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
 
 def updateBlackList():
-    print "ass"
-    blacklist = getBlackList()
+    print blacklist
+    newbl = getBlackList()
+    if blacklist != newbl:
+        blacklist = newbl
+        print "Blacklist updated: ",blacklist
 
 def request(str):
     http.request("GET", "http://dagmeet.appspot.com/NOTIFY", fields={"mac": str})
@@ -70,7 +73,7 @@ def PacketHandler(pkt):
 blacklist = getBlackList()
 print "Blacklist ", blacklist
 
-t = perpetualTimer(5,updateBlackList)
+t = perpetualTimer(30,updateBlackList)
 t.start()
 sniff(iface="mon0", prn = PacketHandler)
 
