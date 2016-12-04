@@ -13,11 +13,21 @@ http = urllib3.PoolManager()
 ## blacklist = open("black.txt","r".read().split("\n")
 logfile = open("logs.txt","a+")
 breaks=[]
+blacklist=[]
+starttime=time.time()
 
+while True:
+    blacklist = http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
+    breaks = []
+    print blacklist
+    time.sleep(60.0 - ((time.time() - starttime) % 60.0))
+
+def getBlackList():
+    http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
 
 def request(str):
-	http.request("GET", "http://dagmeet.appspot.com/NOTIFY", fields={"mac": str})
-	
+    http.request("GET", "http://dagmeet.appspot.com/NOTIFY", fields={"mac": str})
+    
 
 
 def notify(addr):
@@ -31,9 +41,9 @@ def notify(addr):
 def PacketHandler(pkt):
     if pkt.addr2 in blacklist:
         notify(pkt.addr2)
-    # elif pkt.addr1 in blacklist:
-    #     notify(pkt.addr1)
+    elif pkt.addr1 in blacklist:
+        notify(pkt.addr1)
 
 
-
+getBlackList()
 sniff(iface="mon0", prn = PacketHandler)
