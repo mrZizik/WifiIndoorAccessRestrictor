@@ -9,14 +9,8 @@ import time
 import thread
 import urllib3
 http = urllib3.PoolManager()
-import sched
 
-s = sched.scheduler(time.time, time.sleep)
-def timerJob(sc): 
-    blacklist = getBlackList()
-    breaks = []
-    print "Loaded ", blacklist
-    s.enter(60, 1, timerJob, (sc,))
+
 
 
 
@@ -24,7 +18,6 @@ def timerJob(sc):
 logfile = open("logs.txt","a+")
 breaks=[]
 blacklist=[]
-starttime=time.time()
 
 
 def getBlackList():
@@ -34,8 +27,11 @@ def request(str):
     http.request("GET", "http://dagmeet.appspot.com/NOTIFY", fields={"mac": str})
     
 
-
 def notify(addr):
+    newbl = getBlackList()
+    if newbl != blacklist:
+        blacklist = newbl
+        print "Blacklist updated", blacklist
     if addr not in breaks:
         time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         logfile.write("[{0}] - {1} is in secured area\n".format(time, addr))
@@ -49,8 +45,7 @@ def PacketHandler(pkt):
     elif pkt.addr1 in blacklist:
         notify(pkt.addr1)
 
-
-getBlackList()
+blacklist = getBlackList()
+print "Blacklist ", blacklist
 sniff(iface="mon0", prn = PacketHandler)
-s.enter(60, 1, timerJob, (s,))
-s.run()
+
