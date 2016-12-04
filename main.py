@@ -21,7 +21,7 @@ blacklist=[]
 
 
 def getBlackList():
-    http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
+    return http.request("GET", "http://dagmeet.appspot.com/LIST").data.split("\n")
 
 def request(str):
     http.request("GET", "http://dagmeet.appspot.com/NOTIFY", fields={"mac": str})
