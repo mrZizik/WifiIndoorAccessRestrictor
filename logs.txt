@@ -1,0 +1,8 @@
+[2016-12-03 19:59:57] - c0:ee:fb:50:9b:e1 from blacklist is in secured area
+[2016-12-03 22:13:24] - c0:ee:fb:50:9b:e1 from blacklist is in secured area
+[2016-12-03 22:13:51] - c0:ee:fb:50:9b:e1 from blacklist is in secured area
+[2016-12-03 22:20:48] - c0:ee:fb:50:9b:e1 from blacklist is in secured area
+[2016-12-03 22:34:15] - c0:ee:fb:50:9b:e1 from blacklist is in secured area
+[2016-12-03 22:36:54] - c0:ee:fb:50:9b:e1 from blacklist is in secured area
+[2016-12-03 22:37:14] - c0:ee:fb:50:9b:e1 from blacklist is in secured area
+[2016-12-03 22:52:30] - c0:ee:fb:50:9b:e1 from blacklist is in secured area
